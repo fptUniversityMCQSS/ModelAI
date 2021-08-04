@@ -63,6 +63,7 @@ def streamed_response():
         print(f"created {document.path_txt} success, encoding...")
         retriever.encode(document)
         print(f"encoded {document.path_pt} success")
+        documents.append(document)
         yield 'encoded success'
 
     return app.response_class(stream_with_context(generate()))
