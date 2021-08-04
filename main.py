@@ -4,6 +4,8 @@ Google Colab Example: https://colab.research.google.com/github/UKPLab/sentence-t
 import json
 import os
 import re
+import time
+
 from model.answer import Answer
 from model.comparer import Comparer
 from model.document import Document, list_documents, from_pdf_to_document

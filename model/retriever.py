@@ -55,11 +55,11 @@ class Retriever:
             hits[idx]['cross-score'] = cross_scores[idx]
 
         # Output of top-3 hits from bi-encoder
-        # print("\n-------------------------\n")
-        # print("Top-3 Bi-Encoder Retrieval hits")
-        # hits = sorted(hits, key=lambda x: x['score'], reverse=True)
-        # for hit in hits[0:3]:
-        #     print("\t{:.3f}\t{}".format(hit['score'], self.document.paragraphs[hit['corpus_id']].replace("\n", " ")))
+        print("\n-------------------------\n")
+        print("Top-3 Bi-Encoder Retrieval hits")
+        hits = sorted(hits, key=lambda x: x['score'], reverse=True)
+        for hit in hits[0:3]:
+            print("\t{:.3f}\t{}".format(hit['score'], self.document.paragraphs[hit['corpus_id']].replace("\n", " ")))
 
         # Output of top-3 hits from re-ranker
         result = []
