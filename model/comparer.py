@@ -17,5 +17,5 @@ class Comparer:
         cosine_scores = util.pytorch_cos_sim(embeddings1, embeddings2)
 
         # Output the pairs with their score
-        # print("{} \t\t Score: {:.4f}".format(text1, cosine_scores[0][0]))
+        print("{} \t\t Score: {:.4f}".format(text1, cosine_scores[0][0]))
         return cosine_scores[0][0]

@@ -3,4 +3,5 @@ sentence_transformers
 flask~=2.0.1
 flask_restful
 torch~=1.9.0
-pdfminer
+pdfminer~=20191125
+transformers~=4.9.1

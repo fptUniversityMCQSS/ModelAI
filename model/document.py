@@ -21,19 +21,17 @@ class Document:
 
     def open(self):
         with open(self.path_txt, encoding="utf8") as txtFile:
-            self.paragraphs = [line.rstrip() for line in txtFile]
+            return [line.rstrip() for line in txtFile]
 
 
-def list_documents():
+def load_documents():
     os.makedirs(folder_txt, exist_ok=True)
     os.makedirs(folder_pt, exist_ok=True)
     documents = []
     for (dir_path, dir_names, filenames) in walk(folder_txt):
         for filename in filenames:
             document = Document(filename)
-            document.open()
             documents.append(document)
-            break
         break
     return documents
 
@@ -52,12 +50,11 @@ def from_pdf_to_document(pdf_stream, filename):
         interpreter.process_page(page)
         data = string_io.getvalue()
 
-    filename = os.path.splitext(filename)[0]
     document = Document(filename)
-    document.paragraphs = to_paragraphs(data)
+    paragraphs = to_paragraphs(data)
 
     with open(document.path_txt, mode="w", encoding="utf8") as txt_file:
-        for line in document.paragraphs:
+        for line in paragraphs:
             txt_file.write(line + '\n')
 
     return document
