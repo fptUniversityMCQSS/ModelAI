@@ -10,6 +10,9 @@ from sentence_transformers import SentenceTransformer, CrossEncoder, util
 from model.result import Result
 from model.document import Document
 
+# new planning model: https://www.sbert.net/docs/pretrained-models/dpr.html
+# with clustering: https://www.sbert.net/examples/applications/clustering/README.html
+
 # Encode model
 encode_model = 'msmarco-MiniLM-L-6-v3'
 

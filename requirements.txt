@@ -1,6 +1,5 @@
 nltk
-pdfminer
+transformers
 torch
-transformers~=4.9.1
-Flask~=2.0.1
+Flask
 flask_restful

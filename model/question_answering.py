@@ -16,7 +16,7 @@ class QuestionAnswering:
 
     def answer(self, question, context):
         result = self.qa(question=question, context=context)
-        print(f"QA: '{result['answer']}', score: {round(result['score'], 3)}")
+        # print(f"QA: '{result['answer']}', score: {round(result['score'], 3)}")
         return Result(result['score'], result['answer'])
 
         # inputs = self.tokenizer(question, context, add_special_tokens=True, return_tensors="pt")

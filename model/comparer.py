@@ -1,6 +1,7 @@
 from sentence_transformers import SentenceTransformer, util
 
 model = 'paraphrase-MiniLM-L6-v2'
+# model = 'paraphrase-xlm-r-multilingual-v1'
 
 
 class Comparer:
@@ -17,5 +18,5 @@ class Comparer:
         cosine_scores = util.pytorch_cos_sim(embeddings1, embeddings2)
 
         # Output the pairs with their score
-        print("{} \t\t Score: {:.4f}".format(text1, cosine_scores[0][0]))
+        # print("{} \t\t Score: {:.4f}".format(text1, cosine_scores[0][0]))
         return cosine_scores[0][0]
