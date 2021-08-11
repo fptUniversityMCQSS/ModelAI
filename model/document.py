@@ -21,7 +21,7 @@ class Document:
 
     def open(self):
         with open(self.path_txt, encoding="utf8") as txtFile:
-            return [line.rstrip() for line in txtFile]
+            return [line.strip() for line in txtFile]
         # paragraphs = []
         # with open(self.path_txt, encoding="utf8") as txtFile:
         #     txt = txtFile.read()
@@ -69,7 +69,7 @@ def rawtxt_to_document(file_stream, filename):
 
 def to_paragraphs(data: str):
     """
-        Purpose: convert a string to paragraphs. Each paragraph's length is approximately 1000 characters
+        Purpose: convert a string to paragraphs. Each paragraph's length is approximately 100 characters
         Return a list of string.
 
           data
@@ -80,21 +80,21 @@ def to_paragraphs(data: str):
     paragraphs = []
     new_line = ""
     for line in data.split("\n"):
-        if len(line) > 1:
+        line = line.strip()
+        if len(line) > 0:
             if re.match("[.?!]", line[-1]):
                 new_line += line + ' '
                 if len(new_line) > 100:
-                    new_line = re.sub(r"\s+", " ", new_line).rstrip()
+                    new_line = re.sub(r"\s+", " ", new_line).strip()
                     paragraphs.append(new_line)
                     new_line = ""
             elif line[-1] == '-':
                 new_line += line[:-1]
             else:
                 new_line += line + ' '
-    if new_line.rstrip() != "":
+    if new_line.strip() != "":
         paragraphs.append(new_line)
     return paragraphs
-
 
 # with open("../test.txt", encoding="utf8") as txt_file:
 #     txt = txt_file.read()

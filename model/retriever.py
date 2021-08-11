@@ -10,14 +10,14 @@ from sentence_transformers import SentenceTransformer, CrossEncoder, util
 from model.result import Result
 from model.document import Document
 
-# new planning model: https://www.sbert.net/docs/pretrained-models/dpr.html
-# with clustering: https://www.sbert.net/examples/applications/clustering/README.html
-
 # Encode model
 encode_model = 'msmarco-MiniLM-L-6-v3'
 
 # Re-rank model
 re_rank_model = 'cross-encoder/ms-marco-MiniLM-L-6-v2'
+
+# ctx_model = 'facebook-dpr-ctx_encoder-multiset-base'
+# question_model = 'facebook-dpr-question_encoder-multiset-base'
 
 
 class Retriever:
@@ -26,8 +26,11 @@ class Retriever:
         self.cross_encoder = CrossEncoder(re_rank_model)
         self.top_k = top_k
         self.corpus_embeddings_list = None
+        self.passage_embeddings = None
         self.paragraphs = []
         self.docs_map = {}
+        # self.passage_encoder = SentenceTransformer(ctx_model)
+        # self.query_encoder = SentenceTransformer(question_model)
 
     def encode(self, document: Document):
         corpus_embeddings = self.bi_encoder.encode(document.open(), convert_to_tensor=True, show_progress_bar=True)
@@ -66,6 +69,14 @@ class Retriever:
             os.remove(document.path_pt)
         self.docs_map.pop(document.name, None)
         self.combine_data()
+
+    # def find(self, query):
+    #     # passage_embeddings = self.passage_encoder.encode(self.paragraphs)
+    #     query_embedding = self.query_encoder.encode(query)
+    #
+    #     # Important: You must use dot-product, not cosine_similarity
+    #     scores = util.dot_score(query_embedding, self.passage_embeddings)
+    #     print("Scores:", scores)
 
     def search(self, query):
         # Semantic Search #

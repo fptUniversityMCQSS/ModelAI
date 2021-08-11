@@ -35,9 +35,9 @@ def solve_question(question):
     for context in contexts:
         qa_answer = qa.answer(query, context.content)
         print(f"QA: '{qa_answer.content}', score: {round(qa_answer.score, 3)}")
-        if best_qa_answer is None or best_qa_answer.score < qa_answer.score * context.score:
+        if best_qa_answer is None or best_qa_answer.score < qa_answer.score * 4 + context.score:
             best_qa_answer = qa_answer
-            best_qa_answer.score = qa_answer.score * context.score
+            best_qa_answer.score = qa_answer.score * 4 + context.score
             # best_qa_context = context
 
     print("> Comparing options with best context:")
@@ -45,8 +45,8 @@ def solve_question(question):
     for option in question.options:
         score = comparer.compare(option.content, contexts[0].content)
         print("Comparer: {}, score: {:.3f}".format(option.content, score))
-        if best_comparer_answer is None or best_comparer_answer.score < score * contexts[0].score:
-            best_comparer_answer = Result(score * contexts[0].score, option.key)
+        if best_comparer_answer is None or best_comparer_answer.score < score * 3 + contexts[0].score:
+            best_comparer_answer = Result(score * 3 + contexts[0].score, option.key)
 
     best_answer = None
     if best_qa_answer.score >= best_comparer_answer.score:
