@@ -50,7 +50,9 @@ def solve_question(question):
 
     best_answer = None
     if best_qa_answer.score >= best_comparer_answer.score:
-        print("> QA method has higher score, comparing QA answer with options:")
+        print(
+            f"> QA method has higher score ({best_qa_answer.score:.3f} > {best_comparer_answer.score:.3f}), comparing "
+            f"QA answer with options:")
         for option in question.options:
             score = comparer.compare(option.content, best_qa_answer.content)
             print("Comparer: {}, score: {:.3f}".format(option.content, score))
@@ -135,5 +137,5 @@ def qa_res():
     return app.response_class(stream_with_context(question_respond()))
 
 
-if __name__ == '__main__':
-    app.run(port='5002')
+# if __name__ == '__main__':
+#     app.run(port='5002')
