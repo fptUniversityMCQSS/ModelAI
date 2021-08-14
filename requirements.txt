@@ -1,4 +1,6 @@
 nltk
+pytorch_transformers
+sentence_transformers
 transformers
 torch
 Flask
