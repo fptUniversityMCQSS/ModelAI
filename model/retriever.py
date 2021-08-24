@@ -3,6 +3,7 @@
 # source: https://www.sbert.net/examples/applications/semantic-search/README.html
 """
 import os
+from multiprocessing import Process
 
 import torch
 from sentence_transformers import SentenceTransformer, CrossEncoder, util
@@ -15,6 +16,7 @@ encode_model = 'msmarco-MiniLM-L-6-v3'
 
 # Re-rank model
 re_rank_model = 'cross-encoder/ms-marco-MiniLM-L-6-v2'
+
 
 # ctx_model = 'facebook-dpr-ctx_encoder-multiset-base'
 # question_model = 'facebook-dpr-question_encoder-multiset-base'
@@ -33,6 +35,17 @@ class Retriever:
         # self.query_encoder = SentenceTransformer(question_model)
 
     def encode(self, document: Document):
+        p = Process(target=self._encode, args=(document,))
+        self.docs_map[document.name] = {"process": p}
+        print("Start")
+        p.start()
+        p.join()
+        if document.name in self.docs_map:
+            self.docs_map[document.name].pop("process", None)
+            return True
+        return False
+
+    def _encode(self, document: Document):
         corpus_embeddings = self.bi_encoder.encode(document.open(), convert_to_tensor=True, show_progress_bar=True)
         torch.save(corpus_embeddings, document.path_pt)
 
@@ -63,11 +76,15 @@ class Retriever:
             self.paragraphs.extend(paragraphs)
 
     def remove(self, document):
+        try:
+            if "process" in self.docs_map[document.name]:
+                self.docs_map[document.name]["process"].terminate()
+        except: pass
+        self.docs_map.pop(document.name, None)
         if os.path.isfile(document.path_txt):
             os.remove(document.path_txt)
         if os.path.isfile(document.path_pt):
             os.remove(document.path_pt)
-        self.docs_map.pop(document.name, None)
         self.combine_data()
 
     # def find(self, query):

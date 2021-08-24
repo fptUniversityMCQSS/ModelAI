@@ -85,11 +85,12 @@ def upload_knowledge():
     print(f"creating...")
     document = rawtxt_to_document(file.stream, file.filename)
     print(f"created {document.path_txt} success, encoding...")
-    retriever.encode(document)
+    success = retriever.encode(document)
+    if not success:
+        return make_response(jsonify(message=f"Encode {document.name} fail. Document deleted"), 500)
     print(f"encoded {document.path_pt} success")
     retriever.load_document(document)
     retriever.combine_data()
-
     return make_response(jsonify(message=f"Upload and encode {document.name} success"), 200)
 
 
@@ -135,5 +136,5 @@ def qa_res():
     return app.response_class(stream_with_context(question_respond()))
 
 
-# if __name__ == '__main__':
-#     app.run(port='5002')
+if __name__ == '__main__':
+    app.run(port=5000)
