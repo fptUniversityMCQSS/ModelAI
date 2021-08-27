@@ -16,11 +16,12 @@ from flask import stream_with_context, make_response
 from flask_restful import Resource, Api
 from flask import Flask, flash, request, redirect, url_for, jsonify
 
-retriever = Retriever()
-comparer = Comparer()
-qa = QuestionAnswering()
-retriever.load_documents(load_documents())
-retriever.combine_data()
+if __name__ == '__main__':
+    retriever = Retriever()
+    comparer = Comparer()
+    qa = QuestionAnswering()
+    retriever.load_documents(load_documents())
+    retriever.combine_data()
 
 
 def solve_question(question):
